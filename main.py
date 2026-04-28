@@ -1,10 +1,37 @@
 import os
 import sys
 import logic
+import time
 import networkx as nx
 import matplotlib.pyplot as plt
-from simple_term_menu import TerminalMenu
+
+def make_folder():
+    name = f"pandemic{time.time()}"
+    direc = os.path.join(os.getcwd(), name)
+    os.makedirs(direc)
+    return direc
+
+
+def make_image(dire, pan, p):
+    color_map = []
+    for i in pan.map.nodes:
+        if pan.map.nodes[i]["status"] == "infected":
+            color_map.append("red")
+        else:
+            color_map.append("white")
+    nx.draw(pan.map, node_color=color_map, with_labels=True)
+    plt.savefig(os.path.join(dire,f"day{p}.png"))
+    plt.clf()
+    plt.close()
+
+
 a = sys.argv[1]
-b = logic.lode_pandemic(a)
-nx.draw(b)
-plt.savefig("test1.png")
+s = sys.argv[2]
+l = int(sys.argv[3])
+pan = logic.Pandemic(a,s)
+
+loc = make_folder()
+make_image(loc, pan, 0)
+for i in range(l):
+    pan.progress()
+    make_image(loc,pan,i+1)

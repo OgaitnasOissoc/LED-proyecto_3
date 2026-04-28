@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 from random import random
 
 class Pandemic:
-    def infect(self.n):
+    def infect(self, n):
         self.map.nodes[n]["status"] = "infected"
 
 
     def __init__(self,location,starting):
-        self.map = nx.from_edgelist(location)
+        self.map = nx.read_edgelist(location)
         nx.set_node_attributes(self.map, {node: "healthy" for node in self.map.nodes}, "status")
         self.infect(starting)
 
