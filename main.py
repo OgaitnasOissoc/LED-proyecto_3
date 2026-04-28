@@ -25,6 +25,13 @@ def make_image(dire, pan, p):
     plt.close()
 
 
+def check_allinfected(pan):
+    for j in pan.map.nodes:
+        if pan.map.nodes[j]["status"] == "healthy":
+            return
+    sys.exit(0)
+
+
 a = sys.argv[1]
 s = sys.argv[2]
 l = int(sys.argv[3])
@@ -33,5 +40,6 @@ pan = logic.Pandemic(a,s)
 loc = make_folder()
 make_image(loc, pan, 0)
 for i in range(l):
+    check_allinfected(pan)
     pan.progress()
     make_image(loc,pan,i+1)
