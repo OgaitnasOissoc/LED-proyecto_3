@@ -24,6 +24,15 @@ def make_image(dire, pan, p):
     plt.clf()
     plt.close()
 
+def start_log(dire):
+    name = os.path.join(dire, "logs.txt")
+    open(name,"w").close
+    return name
+def update_log(log,pan,l):
+    with open(log, "a") as log:
+        log.write(f"Dia: {l}\n")
+        log.write(f"Sanos: {list(nx.get_node_attributes(pan.map, 'status').values()).count('healthy')}\n")
+        log.write(f"Enfermos: {list(nx.get_node_attributes(pan.map, 'status').values()).count('infected')}\n")
 
 def check_allinfected(pan):
     for j in pan.map.nodes:
@@ -38,11 +47,14 @@ def network():
     pan = logic.Pandemic(a,s)
 
     loc = make_folder()
+    log = start_log(loc)
+    update_log(log,pan,0)
     make_image(loc, pan, 0)
     for i in range(l):
         check_allinfected(pan)
         pan.progress()
         make_image(loc,pan,i+1)
+        update_log(log,pan,i+1)
 
 if __name__ == "__main__":
     network()
