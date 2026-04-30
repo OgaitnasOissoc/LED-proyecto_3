@@ -31,15 +31,18 @@ def check_allinfected(pan):
             return
     sys.exit(0)
 
+def network():
+    a = sys.argv[1]
+    s = sys.argv[2]
+    l = int(sys.argv[3])
+    pan = logic.Pandemic(a,s)
 
-a = sys.argv[1]
-s = sys.argv[2]
-l = int(sys.argv[3])
-pan = logic.Pandemic(a,s)
+    loc = make_folder()
+    make_image(loc, pan, 0)
+    for i in range(l):
+        check_allinfected(pan)
+        pan.progress()
+        make_image(loc,pan,i+1)
 
-loc = make_folder()
-make_image(loc, pan, 0)
-for i in range(l):
-    check_allinfected(pan)
-    pan.progress()
-    make_image(loc,pan,i+1)
+if __name__ == "__main__":
+    network()
